@@ -1,17 +1,13 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { ThemeProvider } from 'styled-components';
 import theme from './src/global/styles/theme';
+import { SignIn } from './src/screens/SignIn';
+// import { Splash } from './src/screens/Splash';
 
 export default function App() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Text style={{ fontFamily: theme.fonts.bold }}>App.tsx</Text>
-    </View>
+    <ThemeProvider theme={theme}>
+      <SignIn />
+    </ThemeProvider>
   );
 }

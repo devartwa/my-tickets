@@ -4,6 +4,7 @@
     "strictNullChecks": false,
     "allowJs": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "jsx": "react-native",
     "lib": [
       "DOM",
