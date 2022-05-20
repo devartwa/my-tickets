@@ -6,11 +6,22 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { InputPassword } from '../../components/InputPassword';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
 
 import { Container, Footer, Form, Header, SubTitle, Title } from './styles';
+import { setUser } from '../../redux/reducers/userReducer';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { TabsParamList } from '../../@types/navigationTypes';
 
-export function SignIn() {
+type SignInNavigationProp = StackNavigationProp<
+  TabsParamList,
+  'AuthStackRoutes'
+>;
+type SignInProps = { navigation: SignInNavigationProp };
+
+export function SignIn({ navigation }: SignInProps) {
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,12 +41,27 @@ export function SignIn() {
           .email('Por favor, digite um e-mail válido'),
       });
       await schema.validate({ email, password });
-      return Alert.alert('Valido');
+      if (email === 'teste@teste.com' && password === '123456') {
+        dispatch(
+          setUser({
+            nome: 'Arthur',
+            email,
+            cpf: '12345678910',
+            telefone: '11 99999-9999',
+          })
+        );
+
+        return navigation.navigate('AppStackRoutes', { screen: 'Home' });
+      }
+      return Alert.alert(
+        'Ops!\nTivemos um imprevisto:',
+        'O E-mail e/ou senha fornecidos estão incorretos.'
+      );
     } catch (error: any) {
       if (error instanceof Yup.ValidationError) {
-        return Alert.alert('Ops! Tivemos um problema:', error.message);
+        return Alert.alert('Ops!\nTivemos um imprevisto:', error.message);
       }
-      return Alert.alert('Ops! Tivemos um problema:', error.message);
+      return Alert.alert('Ops!\nTivemos um imprevisto:', error.message);
     }
   };
 

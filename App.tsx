@@ -1,13 +1,19 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from './src/global/styles/theme';
-import { SignIn } from './src/screens/SignIn';
-// import { Splash } from './src/screens/Splash';
+import { Routes } from './src/routes';
+import { store, persistor } from './src/redux';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <SignIn />
-    </ThemeProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <ThemeProvider theme={theme}>
+          <Routes />
+        </ThemeProvider>
+      </PersistGate>
+    </Provider>
   );
 }
