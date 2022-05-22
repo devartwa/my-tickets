@@ -1,28 +1,82 @@
 import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Button } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { StatusBar } from 'react-native';
 import { TabsParamList } from '../../@types/navigationTypes';
-import { IUser } from '../../redux/models/userModel';
-import { setUser } from '../../redux/reducers/userReducer';
+import data from '../../services/events.json';
 
-import { Container, Title } from './styles';
+import {
+  Container,
+  Content,
+  EventContainer,
+  EventList,
+  EventTitle,
+  Header,
+  Title,
+  UserName,
+} from './styles';
+import { useSelector } from 'react-redux';
+import { ApplicationState } from '../../redux';
+import { Events } from '../../@types/eventTypes';
+import { EventCard } from '../../components/EventCard';
 
-type HomeNavigationProp = StackNavigationProp<TabsParamList, 'AppStackRoutes'>;
+type HomeNavigationProp = StackNavigationProp<TabsParamList, 'Home'>;
 type HomeProps = { navigation: HomeNavigationProp };
 
 export function Home({ navigation }: HomeProps) {
-  const dispatch = useDispatch();
+  const { user } = useSelector((state: ApplicationState) => state.userReducer);
 
-  const handleLogout = () => {
-    dispatch(setUser({} as IUser));
-    navigation.navigate('AuthStackRoutes', { screen: 'SignIn' });
+  const handleEventDetail = (event: Events) => {
+    navigation.navigate('Home', { screen: 'EventDetail', params: { event } });
   };
+
+  const renderItem = ({ item }: { item: Events }) => (
+    <EventCard item={item} onPress={() => handleEventDetail(item)} />
+  );
 
   return (
     <Container>
-      <Title>Home</Title>
-      <Button title="Logout" onPress={handleLogout} />
+      <StatusBar
+        barStyle="dark-content"
+        translucent
+        backgroundColor="transparent"
+      />
+
+      <Header>
+        <Title>Seja bem vindo(a),</Title>
+        <UserName>{user.nome}</UserName>
+      </Header>
+
+      <Content showsVerticalScrollIndicator={false}>
+        <EventContainer>
+          <EventTitle>Universidades:</EventTitle>
+          <EventList
+            data={data.universities}
+            keyExtractor={(item: Events) => item.id}
+            renderItem={renderItem}
+            horizontal
+          />
+        </EventContainer>
+
+        <EventContainer>
+          <EventTitle>Empresas:</EventTitle>
+          <EventList
+            data={data.companies}
+            keyExtractor={(item: Events) => item.id}
+            renderItem={renderItem}
+            horizontal
+          />
+        </EventContainer>
+
+        <EventContainer>
+          <EventTitle>Todos os eventos:</EventTitle>
+          <EventList
+            data={data.allEvents}
+            keyExtractor={(item: Events) => item.id}
+            renderItem={renderItem}
+            horizontal
+          />
+        </EventContainer>
+      </Content>
     </Container>
   );
 }

@@ -9,6 +9,7 @@ type UserState = {
 const initialState: UserState = {
   user: {
     nome: '',
+    sobrenome: '',
     email: '',
     cpf: '',
     telefone: '',

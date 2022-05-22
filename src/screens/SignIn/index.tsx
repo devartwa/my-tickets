@@ -23,11 +23,13 @@ export function SignIn({ navigation }: SignInProps) {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('teste@teste.com');
+  const [password, setPassword] = useState('123456');
+  const [loading, setLoading] = useState(false);
 
   const handleSignIn = async () => {
     try {
+      setLoading(true);
       const schema = Yup.object().shape({
         password: Yup.string()
           .min(6, 'A senha deve ter no mínimo 6 caracteres.')
@@ -41,23 +43,28 @@ export function SignIn({ navigation }: SignInProps) {
           .email('Por favor, digite um e-mail válido'),
       });
       await schema.validate({ email, password });
-      if (email === 'teste@teste.com' && password === '123456') {
-        dispatch(
-          setUser({
-            nome: 'Arthur',
-            email,
-            cpf: '12345678910',
-            telefone: '11 99999-9999',
-          })
-        );
-
-        return navigation.navigate('AppStackRoutes', { screen: 'Home' });
+      if (email.trim() === 'teste@teste.com' && password.trim() === '123456') {
+        return setTimeout(() => {
+          setLoading(false);
+          dispatch(
+            setUser({
+              nome: 'Arthur',
+              sobrenome: 'Bueno',
+              email,
+              cpf: '123.456.789-10',
+              telefone: '(11) 99999-9999',
+            })
+          );
+          navigation.navigate('AppStackRoutes', { screen: 'Home' });
+        }, 2000);
       }
+      setLoading(false);
       return Alert.alert(
         'Ops!\nTivemos um imprevisto:',
         'O E-mail e/ou senha fornecidos estão incorretos.'
       );
     } catch (error: any) {
+      setLoading(false);
       if (error instanceof Yup.ValidationError) {
         return Alert.alert('Ops!\nTivemos um imprevisto:', error.message);
       }
@@ -106,8 +113,8 @@ export function SignIn({ navigation }: SignInProps) {
             <Button
               title="Entrar"
               onPress={handleSignIn}
-              enabled={true}
-              loading={false}
+              enabled={!loading}
+              loading={loading}
             />
             <Button
               title="Criar conta gratuita"
