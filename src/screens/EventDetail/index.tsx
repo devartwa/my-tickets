@@ -6,6 +6,11 @@ import Feather from 'react-native-vector-icons/Feather';
 import { Carousel } from '../../components/Carousel';
 import { useTheme } from 'styled-components';
 import { Button } from '../../components/Button';
+import { useSelector } from 'react-redux';
+import { ApplicationState } from '../../redux';
+import { useDispatch } from 'react-redux';
+import { setEvents } from '../../redux/reducers/eventsReducer';
+import { Alert } from 'react-native';
 
 import {
   ButtonContainer,
@@ -33,12 +38,32 @@ type EventDetailProps = {
 export function EventDetail({ navigation, route }: EventDetailProps) {
   const { event } = route.params;
   const theme = useTheme();
+  const dispatch = useDispatch();
+
+  const { events } = useSelector(
+    (state: ApplicationState) => state.eventsReducer
+  );
 
   const goBack = () => {
     navigation.goBack();
   };
 
-  const handleBuyTicket = () => {};
+  const handleBuyTicket = () => {
+    if (events.length > 0) {
+      const resultFilter = events.filter(
+        (eventItem) => eventItem.name === event.name
+      );
+      if (resultFilter.length > 0) {
+        return Alert.alert(
+          'Ops!\nTivemos um imprevisto:',
+          `O evento: ${event.name} permite apenas 1 ingresso por pessoa.`,
+          [{ text: 'OK' }]
+        );
+      }
+    }
+    Alert.alert('Sucesso', 'Compra realizada com sucesso!');
+    return dispatch(setEvents(event));
+  };
 
   return (
     <Container>

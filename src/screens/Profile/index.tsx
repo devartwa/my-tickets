@@ -2,10 +2,12 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { Events } from '../../@types/eventTypes';
 import { TabsParamList } from '../../@types/navigationTypes';
 import { Button } from '../../components/Button';
 import { ApplicationState } from '../../redux';
 import { IUser } from '../../redux/models/userModel';
+import { setEvents } from '../../redux/reducers/eventsReducer';
 import { setUser } from '../../redux/reducers/userReducer';
 
 import {
@@ -30,6 +32,7 @@ export function Profile({ navigation }: ProfileProps) {
 
   const handleSignOut = () => {
     dispatch(setUser({} as IUser));
+    dispatch(setEvents({} as Events));
     navigation.navigate('AuthStackRoutes', { screen: 'SignIn' });
   };
 

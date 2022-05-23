@@ -8,16 +8,21 @@ interface InfoContainerEventProps {
   width?: number;
 }
 
-export const ContainerEvent = styled.TouchableOpacity`
+interface CustomWidthPorcentageProps {
+  width?: number;
+}
+
+export const ContainerEvent = styled.TouchableOpacity<CustomWidthPorcentageProps>`
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 8px;
-  width: 320px;
+  width: ${({ width }) => (width ? '100%' : '320px')};
   margin-right: 24px;
   shadow-color: ${({ theme }) => theme.colors.black};
   shadow-opacity: 0.25;
   shadow-radius: 3.5px;
   shadow-offset: 0px 2.5px;
   elevation: 10;
+  ${({ width }) => width && 'margin-bottom: 20px'};})}
 `;
 
 export const ImageEvent = styled(FastImage)`

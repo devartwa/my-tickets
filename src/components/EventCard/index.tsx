@@ -12,12 +12,17 @@ import {
 
 interface Props {
   item: Events;
+  customPercentageWidth?: number;
   onPress: () => void;
 }
 
-export function EventCard({ item, onPress }: Props) {
+export function EventCard({ item, customPercentageWidth, onPress }: Props) {
   return (
-    <ContainerEvent onPress={onPress} key={item.id}>
+    <ContainerEvent
+      width={customPercentageWidth}
+      onPress={onPress}
+      key={item.id}
+    >
       <ImageEvent source={{ uri: item.photos[0] }} />
 
       <InfoContainerEventWrapper>
