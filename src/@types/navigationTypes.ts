@@ -7,13 +7,13 @@ export type RootNavigationParams = {
 
 export type TabsParamList = {
   AuthStackRoutes: NavigatorScreenParams<AuthParamList>;
-  Home: NavigatorScreenParams<AppParamList>;
+  AppStackRoutes: NavigatorScreenParams<AppParamList>;
   Tickets: undefined;
   Profile: undefined;
 };
 
 export type AppParamList = {
-  AppStackRoutes: undefined;
+  Home: undefined;
   EventDetail: {
     event: Events;
   };

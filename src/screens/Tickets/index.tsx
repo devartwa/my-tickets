@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { Keyboard, StatusBar } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Events } from '../../@types/eventTypes';
@@ -19,7 +19,7 @@ import {
   Title,
 } from './styles';
 
-type TicketsNavigationProp = StackNavigationProp<TabsParamList, 'Tickets'>;
+type TicketsNavigationProp = BottomTabNavigationProp<TabsParamList, 'Tickets'>;
 type TicketsProps = { navigation: TicketsNavigationProp };
 
 export function Tickets({ navigation }: TicketsProps) {
@@ -33,7 +33,10 @@ export function Tickets({ navigation }: TicketsProps) {
   );
 
   const handleEventDetail = (event: Events) => {
-    navigation.navigate('Home', { screen: 'EventDetail', params: { event } });
+    navigation.navigate('AppStackRoutes', {
+      screen: 'EventDetail',
+      params: { event },
+    });
   };
 
   const handleFilterEvent = () => {

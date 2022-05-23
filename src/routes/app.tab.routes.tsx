@@ -13,7 +13,7 @@ export function AppTabRoutes() {
   const theme = useTheme();
   return (
     <Navigator
-      initialRouteName="Home"
+      initialRouteName="AppStackRoutes"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: true,
@@ -39,7 +39,7 @@ export function AppTabRoutes() {
       }}
     >
       <Screen
-        name="Home"
+        name="AppStackRoutes"
         component={AppStackRoutes}
         options={{
           tabBarIcon: ({ size, color }) => (

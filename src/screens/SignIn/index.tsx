@@ -11,12 +11,9 @@ import { useDispatch } from 'react-redux';
 import { Container, Footer, Form, Header, SubTitle, Title } from './styles';
 import { setUser } from '../../redux/reducers/userReducer';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { TabsParamList } from '../../@types/navigationTypes';
+import { RootNavigationParams } from '../../@types/navigationTypes';
 
-type SignInNavigationProp = StackNavigationProp<
-  TabsParamList,
-  'AuthStackRoutes'
->;
+type SignInNavigationProp = StackNavigationProp<RootNavigationParams, 'Root'>;
 type SignInProps = { navigation: SignInNavigationProp };
 
 export function SignIn({ navigation }: SignInProps) {
@@ -55,7 +52,7 @@ export function SignIn({ navigation }: SignInProps) {
               telefone: '(11) 99999-9999',
             })
           );
-          navigation.navigate('AppStackRoutes', { screen: 'Home' });
+          navigation.navigate('Root', { screen: 'AppStackRoutes' });
         }, 2000);
       }
       setLoading(false);

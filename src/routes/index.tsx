@@ -1,16 +1,23 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { AuthRoutes } from './auth.routes';
-import { AppTabRoutes } from './app.tab.routes';
-import { useSelector } from 'react-redux';
-import { ApplicationState } from '../redux';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NestedRoutes } from './nested.routes';
+import { RootNavigationParams } from '../@types/navigationTypes';
+
+const { Navigator, Screen } = createStackNavigator<RootNavigationParams>();
+
+function NavigationRoutes() {
+  return (
+    <Navigator screenOptions={{ headerShown: false }}>
+      <Screen name="Root" component={NestedRoutes} />
+    </Navigator>
+  );
+}
 
 export function Routes() {
-  const { user } = useSelector((state: ApplicationState) => state.userReducer);
-
   return (
     <NavigationContainer>
-      {user.email ? <AppTabRoutes /> : <AuthRoutes />}
+      <NavigationRoutes />
     </NavigationContainer>
   );
 }

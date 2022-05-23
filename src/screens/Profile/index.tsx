@@ -1,13 +1,11 @@
-import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { Events } from '../../@types/eventTypes';
-import { TabsParamList } from '../../@types/navigationTypes';
+import { RootNavigationParams } from '../../@types/navigationTypes';
 import { Button } from '../../components/Button';
 import { ApplicationState } from '../../redux';
 import { IUser } from '../../redux/models/userModel';
-import { setEvents } from '../../redux/reducers/eventsReducer';
 import { setUser } from '../../redux/reducers/userReducer';
 
 import {
@@ -22,8 +20,12 @@ import {
   InitialUser,
   Username,
 } from './styles';
+import { CommonActions } from '@react-navigation/native';
 
-type ProfileNavigationProp = StackNavigationProp<TabsParamList, 'Profile'>;
+type ProfileNavigationProp = BottomTabNavigationProp<
+  RootNavigationParams,
+  'Root'
+>;
 type ProfileProps = { navigation: ProfileNavigationProp };
 
 export function Profile({ navigation }: ProfileProps) {
@@ -32,8 +34,12 @@ export function Profile({ navigation }: ProfileProps) {
 
   const handleSignOut = () => {
     dispatch(setUser({} as IUser));
-    dispatch(setEvents({} as Events));
-    navigation.navigate('AuthStackRoutes', { screen: 'SignIn' });
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{ name: 'Root', params: { screen: 'SignIn' } }],
+      })
+    );
   };
 
   return (

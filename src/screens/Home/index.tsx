@@ -1,7 +1,7 @@
 import React from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StatusBar } from 'react-native';
-import { TabsParamList } from '../../@types/navigationTypes';
+import { AppParamList } from '../../@types/navigationTypes';
 import data from '../../services/events.json';
 
 import {
@@ -19,14 +19,14 @@ import { ApplicationState } from '../../redux';
 import { Events } from '../../@types/eventTypes';
 import { EventCard } from '../../components/EventCard';
 
-type HomeNavigationProp = StackNavigationProp<TabsParamList, 'Home'>;
+type HomeNavigationProp = StackNavigationProp<AppParamList, 'Home'>;
 type HomeProps = { navigation: HomeNavigationProp };
 
 export function Home({ navigation }: HomeProps) {
   const { user } = useSelector((state: ApplicationState) => state.userReducer);
 
   const handleEventDetail = (event: Events) => {
-    navigation.navigate('Home', { screen: 'EventDetail', params: { event } });
+    navigation.navigate('EventDetail', { event });
   };
 
   const renderItem = ({ item }: { item: Events }) => (
